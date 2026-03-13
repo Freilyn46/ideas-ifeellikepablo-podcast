@@ -419,7 +419,7 @@
 
       <div class="field">
         <label>Tu idea *</label>
-        <input type="text" id="inp-title" placeholder="Ej: Episodio sobre la responsabilidad humana…">
+        <input type="text" id="inp-title" placeholder="Ej: Episodio sobre inteligencia artificial…">
       </div>
 
       <div class="field">
@@ -591,7 +591,6 @@
           </div>
           <div class="idea-title">${esc(idea.title)}</div>
           ${idea.desc ? `<div class="idea-desc">${esc(idea.desc)}</div>` : ''}
-          ${isAdmin ? `<button onclick="deleteIdea('${idea.firebaseId}')" style="margin-top:8px;background:#c0392b;color:#fff;border:none;border-radius:8px;padding:4px 12px;font-size:0.75rem;cursor:pointer">🗑 Borrar</button>` : ''}
           <div class="idea-date">${idea.date}</div>
         </div>
       </div>
@@ -601,31 +600,8 @@
   function esc(str) {
     return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   }
-window.deleteIdea = async function(id) {
-  if (!confirm('¿Borrar esta idea?')) return;
-</script>
-  <!-- Admin -->
-<div style="text-align:center;padding:40px 0 20px">
-  <button onclick="adminLogin()" style="background:transparent;border:1px solid #5a6e57;color:#a8b5a5;border-radius:999px;padding:6px 16px;font-size:0.75rem;cursor:pointer">⚙ Admin</button>
-</div>
 
-<script>
-  let isAdmin = false;
-  window.adminLogin = function() {
-    const pass = prompt('Contraseña:');
-    if (pass === 'Paul2026') {
-      isAdmin = true;
-      alert('✅ Modo admin activado');
-      render();
-    } else {
-      alert('Contraseña incorrecta');
-    }
-  }
-document.addEventListener('keydown', function(e) {
-  if (e.ctrlKey && e.shiftKey && e.key === 'A') {
-    adminLogin();
-  }
-});
+  loadIdeas();
 </script>
 </body>
 </html>
