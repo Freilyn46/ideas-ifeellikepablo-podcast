@@ -591,6 +591,7 @@
           </div>
           <div class="idea-title">${esc(idea.title)}</div>
           ${idea.desc ? `<div class="idea-desc">${esc(idea.desc)}</div>` : ''}
+          ${isAdmin ? `<button onclick="deleteIdea('${idea.firebaseId}')" style="margin-top:8px;background:#c0392b;color:#fff;border:none;border-radius:8px;padding:4px 12px;font-size:0.75rem;cursor:pointer">🗑 Borrar</button>` : ''}
           <div class="idea-date">${idea.date}</div>
         </div>
       </div>
@@ -600,7 +601,11 @@
   function esc(str) {
     return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   }
-
+window.deleteIdea = async function(id) {
+  if (!confirm('¿Borrar esta idea?')) return;
+  await deleteDoc(doc(db, 'ideas', id));
+  await loadIdeas();
+}
   loadIdeas();
 </script>
   <!-- Admin -->
