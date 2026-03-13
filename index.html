@@ -603,10 +603,6 @@
   }
 window.deleteIdea = async function(id) {
   if (!confirm('¿Borrar esta idea?')) return;
-  await deleteDoc(doc(db, 'ideas', id));
-  await loadIdeas();
-}
-  loadIdeas();
 </script>
   <!-- Admin -->
 <div style="text-align:center;padding:40px 0 20px">
@@ -625,6 +621,11 @@ window.deleteIdea = async function(id) {
       alert('Contraseña incorrecta');
     }
   }
+document.addEventListener('keydown', function(e) {
+  if (e.ctrlKey && e.shiftKey && e.key === 'A') {
+    adminLogin();
+  }
+});
 </script>
 </body>
 </html>
