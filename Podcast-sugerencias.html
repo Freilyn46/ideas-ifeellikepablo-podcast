@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sugerencias para el Podcast</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&family=Instrument+Sans:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #faf7f2;
+      --surface: #ffffff;
+      --border: #e8e2d9;
+      --accent: #e8390e;
+      --accent2: #1a1a1a;
+      --text: #1a1a1a;
+      --muted: #9c9488;
+      --soft: #f3ede4;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Instrument Sans', sans-serif;
+      min-height: 100vh;
+    }
+
+    /* Hero */
+    .hero {
+      background: var(--accent2);
+      color: #fff;
+      padding: 60px 24px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '🎙';
+      position: absolute;
+      font-size: 280px;
+      right: -40px;
+      top: -40px;
+      opacity: 0.06;
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      max-width: 680px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .live-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(232,57,14,0.15);
+      border: 1px solid rgba(232,57,14,0.4);
+      border-radius: 999px;
+      padding: 4px 14px;
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #ff7a5c;
+      margin-bottom: 20px;
+    }
+
+    .live-dot {
+      width: 7px; height: 7px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 1.5s infinite;
+    }
+
+    h1 {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: clamp(2.2rem, 7vw, 4rem);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin-bottom: 14px;
+    }
+
+    h1 em {
+      font-style: normal;
+      color: var(--accent);
+    }
+
+    .hero-sub {
+      color: #a0a0a0;
+      font-size: 1rem;
+      font-weight: 300;
+      line-height: 1.6;
+      max-width: 420px;
+    }
+
+    /* Main */
+    .main {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    /* Submit form */
+    .form-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 32px;
+      margin-top: -32px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.08);
+      animation: fadeUp 0.5s ease both;
+    }
+
+    .form-title {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    .field { margin-bottom: 14px; }
+
+    .field label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    input[type=text], textarea {
+      width: 100%;
+      background: var(--soft);
+      border: 1.5px solid transparent;
+      border-radius: 12px;
+      padding: 13px 16px;
+      color: var(--text);
+      font-family: 'Instrument Sans', sans-serif;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    input[type=text]:focus, textarea:focus {
+      border-color: var(--accent);
+      background: #fff;
+    }
+
+    input::placeholder, textarea::placeholder { color: var(--muted); }
+    textarea { resize: none; height: 90px; }
+
+    .categories {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .cat-chip {
+      background: var(--soft);
+      border: 1.5px solid var(--border);
+      border-radius: 999px;
+      padding: 6px 16px;
+      font-size: 0.82rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      user-select: none;
+    }
+
+    .cat-chip.selected {
+      background: var(--accent2);
+      border-color: var(--accent2);
+      color: #fff;
+    }
+
+    .btn-submit {
+      width: 100%;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 15px;
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 6px;
+      transition: opacity 0.2s, transform 0.15s;
+    }
+
+    .btn-submit:hover { opacity: 0.88; transform: translateY(-1px); }
+    .btn-submit:active { transform: translateY(0); }
+    .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+    /* Success */
+    .success-msg {
+      display: none;
+      text-align: center;
+      padding: 24px;
+    }
+
+    .success-msg .icon { font-size: 2.5rem; margin-bottom: 10px; }
+    .success-msg h3 {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .success-msg p { color: var(--muted); font-size: 0.9rem; }
+
+    /* Ideas section */
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 40px 0 20px;
+      animation: fadeUp 0.5s 0.1s ease both;
+    }
+
+    .section-title {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+    }
+
+    .count-badge {
+      background: var(--accent2);
+      color: #fff;
+      border-radius: 999px;
+      padding: 3px 12px;
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+
+    /* Filter tabs */
+    .tabs {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+      animation: fadeUp 0.5s 0.15s ease both;
+    }
+
+    .tab {
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 5px 16px;
+      font-family: 'Instrument Sans', sans-serif;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: var(--muted);
+    }
+
+    .tab.active, .tab:hover {
+      background: var(--accent2);
+      border-color: var(--accent2);
+      color: #fff;
+    }
+
+    /* Cards */
+    .ideas-list { display: flex; flex-direction: column; gap: 12px; }
+
+    .idea-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px 22px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      transition: border-color 0.2s, transform 0.2s;
+      animation: fadeUp 0.4s ease both;
+    }
+
+    .idea-card:hover {
+      border-color: #d0c8bf;
+      transform: translateX(3px);
+    }
+
+    .vote-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      min-width: 36px;
+    }
+
+    .vote-btn {
+      background: var(--soft);
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      width: 36px; height: 36px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .vote-btn:hover, .vote-btn.voted {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    .vote-count {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .idea-body { flex: 1; }
+
+    .idea-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+      flex-wrap: wrap;
+    }
+
+    .idea-cat {
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: var(--soft);
+      border-radius: 999px;
+      padding: 2px 10px;
+      color: var(--muted);
+      border: 1px solid var(--border);
+    }
+
+    .idea-author {
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-weight: 300;
+    }
+
+    .idea-title {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      margin-bottom: 4px;
+      line-height: 1.3;
+    }
+
+    .idea-desc {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.6;
+      font-weight: 300;
+    }
+
+    .idea-date {
+      font-size: 0.72rem;
+      color: #c0b8af;
+      margin-top: 8px;
+    }
+
+    /* Empty */
+    .empty {
+      text-align: center;
+      padding: 50px 20px;
+      color: var(--muted);
+    }
+    .empty .icon { font-size: 2.5rem; margin-bottom: 10px; }
+
+    /* Loading */
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="live-badge">
+      <span class="live-dot"></span>
+      Sugerencias abiertas
+    </div>
+    <h1>¿Qué quieres que<br>hagamos en el <em>podcast?</em></h1>
+    <p class="hero-sub">Déjanos tu idea — los temas con más votos son los que grabamos primero.</p>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- Form -->
+  <div class="form-card">
+    <div id="form-content">
+      <div class="form-title">✍️ Proponer una idea</div>
+
+      <div class="field">
+        <label>Tu nombre (opcional)</label>
+        <input type="text" id="inp-name" placeholder="Ej: María, o déjalo en blanco">
+      </div>
+
+      <div class="field">
+        <label>Tu idea *</label>
+        <input type="text" id="inp-title" placeholder="Ej: Episodio sobre inteligencia artificial…">
+      </div>
+
+      <div class="field">
+        <label>Cuéntanos más (opcional)</label>
+        <textarea id="inp-desc" placeholder="¿Por qué sería un buen tema? ¿Tienes algún enfoque específico?"></textarea>
+      </div>
+
+      <div class="field">
+        <label>Categoría</label>
+        <div class="categories">
+          <span class="cat-chip selected" data-cat="Tema general">🎙 Tema general</span>
+          <span class="cat-chip" data-cat="Entrevista">🎤 Entrevista</span>
+          <span class="cat-chip" data-cat="Debate">🔥 Debate</span>
+          <span class="cat-chip" data-cat="Tutorial">📖 Tutorial</span>
+          <span class="cat-chip" data-cat="Historia">📜 Historia</span>
+        </div>
+      </div>
+
+      <button class="btn-submit" id="btn-submit" onclick="submitIdea()">🚀 Enviar mi idea</button>
+    </div>
+
+    <div class="success-msg" id="success-msg">
+      <div class="icon">🎉</div>
+      <h3>¡Gracias por tu sugerencia!</h3>
+      <p>Tu idea ya está visible. ¡Cuéntales a tus amigos para que voten!</p>
+      <button class="btn-submit" style="margin-top:16px" onclick="resetForm()">Sugerir otra idea</button>
+    </div>
+  </div>
+
+  <!-- Ideas list -->
+  <div class="section-header">
+    <span class="section-title">💡 Ideas de la comunidad</span>
+    <span class="count-badge" id="count-badge">0</span>
+  </div>
+
+  <div class="tabs" id="tabs">
+    <button class="tab active" onclick="setFilter('Todos', this)">Todos</button>
+    <button class="tab" onclick="setFilter('Tema general', this)">🎙 Temas</button>
+    <button class="tab" onclick="setFilter('Entrevista', this)">🎤 Entrevistas</button>
+    <button class="tab" onclick="setFilter('Debate', this)">🔥 Debates</button>
+    <button class="tab" onclick="setFilter('Tutorial', this)">📖 Tutoriales</button>
+    <button class="tab" onclick="setFilter('Historia', this)">📜 Historias</button>
+  </div>
+
+  <div id="ideas-list" class="ideas-list">
+    <div class="loading">Cargando ideas…</div>
+  </div>
+
+</div>
+
+<script>
+  // ── State ──────────────────────────────────────────────
+  let ideas = [];
+  let activeFilter = 'Todos';
+  let selectedCat = 'Tema general';
+  let votedIds = JSON.parse(localStorage.getItem('voted') || '[]');
+
+  // ── Storage helpers ────────────────────────────────────
+  async function loadIdeas() {
+    try {
+      const result = await window.storage.get('podcast-ideas', true);
+      ideas = result ? JSON.parse(result.value) : [];
+    } catch {
+      ideas = [];
+    }
+    render();
+  }
+
+  async function saveIdeas() {
+    try {
+      await window.storage.set('podcast-ideas', JSON.stringify(ideas), true);
+    } catch (e) {
+      console.error('Storage error', e);
+    }
+  }
+
+  // ── Category chips ─────────────────────────────────────
+  document.querySelectorAll('.cat-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('selected'));
+      chip.classList.add('selected');
+      selectedCat = chip.dataset.cat;
+    });
+  });
+
+  // ── Submit ─────────────────────────────────────────────
+  async function submitIdea() {
+    const title = document.getElementById('inp-title').value.trim();
+    if (!title) { document.getElementById('inp-title').focus(); return; }
+
+    const btn = document.getElementById('btn-submit');
+    btn.disabled = true;
+    btn.textContent = 'Enviando…';
+
+    const idea = {
+      id: Date.now(),
+      title,
+      desc: document.getElementById('inp-desc').value.trim(),
+      name: document.getElementById('inp-name').value.trim() || 'Anónimo',
+      cat: selectedCat,
+      votes: 0,
+      date: new Date().toLocaleDateString('es-ES', { day:'2-digit', month:'short', year:'numeric' })
+    };
+
+    ideas.unshift(idea);
+    await saveIdeas();
+
+    document.getElementById('form-content').style.display = 'none';
+    document.getElementById('success-msg').style.display = 'block';
+    render();
+  }
+
+  function resetForm() {
+    document.getElementById('form-content').style.display = 'block';
+    document.getElementById('success-msg').style.display = 'none';
+    document.getElementById('inp-title').value = '';
+    document.getElementById('inp-desc').value = '';
+    document.getElementById('inp-name').value = '';
+    document.getElementById('btn-submit').disabled = false;
+    document.getElementById('btn-submit').textContent = '🚀 Enviar mi idea';
+  }
+
+  // ── Vote ───────────────────────────────────────────────
+  async function vote(id) {
+    if (votedIds.includes(id)) return;
+    const idea = ideas.find(i => i.id === id);
+    if (!idea) return;
+    idea.votes++;
+    votedIds.push(id);
+    localStorage.setItem('voted', JSON.stringify(votedIds));
+    await saveIdeas();
+    render();
+  }
+
+  // ── Filter ─────────────────────────────────────────────
+  function setFilter(f, btn) {
+    activeFilter = f;
+    document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    render();
+  }
+
+  // ── Render ─────────────────────────────────────────────
+  function render() {
+    const list = document.getElementById('ideas-list');
+    const filtered = activeFilter === 'Todos' ? ideas : ideas.filter(i => i.cat === activeFilter);
+    const sorted = [...filtered].sort((a, b) => b.votes - a.votes);
+
+    document.getElementById('count-badge').textContent = ideas.length;
+
+    if (!sorted.length) {
+      list.innerHTML = `<div class="empty"><div class="icon">🎙</div><p>Aún no hay ideas en esta categoría.<br>¡Sé el primero!</p></div>`;
+      return;
+    }
+
+    list.innerHTML = sorted.map((idea, idx) => `
+      <div class="idea-card" style="animation-delay:${idx * 0.04}s">
+        <div class="vote-col">
+          <button class="vote-btn ${votedIds.includes(idea.id) ? 'voted' : ''}" onclick="vote(${idea.id})" title="Votar">▲</button>
+          <span class="vote-count">${idea.votes}</span>
+        </div>
+        <div class="idea-body">
+          <div class="idea-meta">
+            <span class="idea-cat">${idea.cat}</span>
+            <span class="idea-author">por ${escHtml(idea.name)}</span>
+          </div>
+          <div class="idea-title">${escHtml(idea.title)}</div>
+          ${idea.desc ? `<div class="idea-desc">${escHtml(idea.desc)}</div>` : ''}
+          <div class="idea-date">${idea.date}</div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function escHtml(str) {
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  // ── Init ───────────────────────────────────────────────
+  loadIdeas();
+</script>
+</body>
+</html>
