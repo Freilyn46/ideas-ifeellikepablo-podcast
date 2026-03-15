@@ -28,7 +28,9 @@
 
     /* ── HERO ── */
     .hero {
-      background: #1e2b1b;
+      background:
+        linear-gradient(rgba(0,0,0,0.48), rgba(0,0,0,0.5)),
+        url("logopablo.jpeg") center/cover no-repeat;
       color: var(--soft);
       padding: 64px 24px 100px;
       position: relative;
@@ -40,8 +42,8 @@
       position: absolute;
       inset: 0;
       background:
-        radial-gradient(ellipse 60% 50% at 80% 0%, rgba(200,168,75,0.10) 0%, transparent 70%),
-        radial-gradient(ellipse 40% 60% at 10% 100%, rgba(46,61,43,0.5) 0%, transparent 60%);
+        radial-gradient(ellipse 60% 50% at 80% 0%, rgba(200,168,75,0.14) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 60% at 10% 100%, rgba(46,61,43,0.4) 0%, transparent 60%);
       pointer-events: none;
     }
 
@@ -575,11 +577,10 @@
   </style>
 </head>
 <body>
- 
-  <img src="logopablo.jpeg" class="logo" alt="I Feel Like Pablo">
 <div class="hero">
   <div class="hero-inner">
-   
+    <img src="logopablo.jpeg" class="logo" alt="I Feel Like Pablo">
+    
     <div class="live-badge">
       <span class="live-dot"></span>
       Sugerencias abiertas
@@ -813,3 +814,4 @@ import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.0/firebas
 
 </body>
 </html>
+
