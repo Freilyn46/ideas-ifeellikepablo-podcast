@@ -791,10 +791,14 @@ import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.0/firebas
 
   // Votar
   window.vote = async function(firebaseId) {
-    if (votedIds.includes(firebaseId)) return;
     try {
-      await updateDoc(doc(db, 'ideas', firebaseId), { votes: increment(1) });
-      votedIds.push(firebaseId);
+      if (votedIds.includes(firebaseId)) {
+        await updateDoc(doc(db, 'ideas', firebaseId), { votes: increment(-1) });
+        votedIds = votedIds.filter(id => id !== firebaseId);
+      } else {
+        await updateDoc(doc(db, 'ideas', firebaseId), { votes: increment(1) });
+        votedIds.push(firebaseId);
+      }
       localStorage.setItem('voted-pablo', JSON.stringify(votedIds));
       await loadIdeas();
     } catch(e) { console.error(e); }
